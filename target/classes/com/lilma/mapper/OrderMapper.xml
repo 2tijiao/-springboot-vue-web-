@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lilma.mapper.OrderMapper">
+    <!-- 动态SQL查询 -->
+    <select id="search" resultType="com.lilma.pojo.Order">
+        select * from `order`
+        <where>
+            <choose>
+                <!-- 如果提供了用户名，则按用户名进行模糊查询 -->
+                <when test="username != ''">
+                    username like CONCAT('%', #{username}, '%')
+                </when>
+                <!-- 如果没有提供用户名，则按商品名称进行模糊查询 -->
+                <otherwise>
+                    goodsname like CONCAT('%', #{goodsname}, '%')
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+</mapper>
